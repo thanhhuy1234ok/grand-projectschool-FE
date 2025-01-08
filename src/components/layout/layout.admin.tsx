@@ -1,0 +1,213 @@
+import React, { useEffect, useState } from 'react';
+import {
+    AppstoreOutlined,
+    ExceptionOutlined,
+    HeartTwoTone,
+    TeamOutlined,
+    UserOutlined,
+    DollarCircleOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    CalendarOutlined,
+    HomeOutlined,
+} from '@ant-design/icons';
+import { Layout, Menu, Dropdown, Space, Avatar } from 'antd';
+import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useCurrentApp } from '../context/app.context';
+import type { MenuProps } from 'antd';
+import avatar from '@/assets/avatar/avatar.jpg'
+import { LogoutAPI } from '@/services/api';
+type MenuItem = Required<MenuProps>['items'][number];
+
+const { Content, Footer, Sider } = Layout;
+
+
+const LayoutAdmin = () => {
+    const [collapsed, setCollapsed] = useState(false);
+    const [activeMenu, setActiveMenu] = useState('');
+    const {
+        user, setUser, setIsAuthenticated, isAuthenticated,
+    } = useCurrentApp();
+    const navigate = useNavigate();
+
+    const location = useLocation();
+
+    const items: MenuItem[] = [
+        {
+            label: <Link to='/admin'>Dashboard</Link>,
+            key: '/admin',
+            icon: <AppstoreOutlined />,
+
+        },
+        {
+            label: <Link to={'/admin/roles'}>Role</Link>,
+            key: '/admin/roles',
+            icon: <ExceptionOutlined />,
+        },
+        {
+            label: <Link to={'/admin/major'}>Major</Link>,
+            key: '/admin/major',
+            icon: <ExceptionOutlined size={17} />,
+        },
+        {
+            label: <Link to={'/admin/cohort'}>Year of Admission</Link>,
+            key: '/admin/cohort',
+            icon: <CalendarOutlined />,
+        },
+        {
+            label: <Link to={'/admin/classes'}>Classes</Link>,
+            key: '/admin/classes',
+            icon: <HomeOutlined />,
+        },
+        {
+            label: <Link to={'/admin/room'}>Room</Link>,
+            key: '/admin/room',
+            icon: <HomeOutlined />,
+        },
+        {
+            label: <Link to={'/admin/users'}>Users</Link>,
+            key: '/admin/users',
+            icon: <UserOutlined />,
+        },
+        {
+            label: <Link to={'/admin/subject'}>Subject</Link>,
+            key: '/admin/subject',
+            icon: <UserOutlined />,
+        },
+        {
+            label: <Link to={'/admin/schedule'}>Schedule</Link>,
+            key: '/admin/schedule',
+            icon: <UserOutlined />,
+        }, {
+            label: <Link to={'/admin/semester'}>Semester</Link>,
+            key: '/admin/semester',
+            icon: <UserOutlined />,
+        },
+
+    ];
+
+
+    useEffect(() => {
+        const active: any = items.find(item => location.pathname === (item!.key as any)) ?? "/admin";
+        setActiveMenu(active.key)
+    }, [location])
+
+    const handleLogout = async () => {
+        //todo
+        const res = await LogoutAPI();
+        if (res.data) {
+            setUser(null);
+            setIsAuthenticated(false);
+            localStorage.removeItem("access_token");
+            navigate("/login");
+        }
+    }
+
+    const handleProfile = () => {
+        navigate("/admin/profile");
+    }
+
+
+    const itemsDropdown = [
+        {
+            label: <label
+                style={{ cursor: 'pointer' }}
+                onClick={handleProfile}
+            >Quản lý tài khoản</label>,
+            key: 'account',
+        },
+        {
+            label: <label
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleLogout()}
+            >Đăng xuất</label>,
+            key: 'logout',
+        },
+
+    ];
+
+    // const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user?.avatar}`;
+    const urlAvatar = user?.avatar
+        ? `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user.avatar}`
+        : avatar;
+
+    if (isAuthenticated === false) {
+        return (
+            <Outlet />
+        )
+    }
+
+    const protectedRoutes = ["/admin", "/teacher", "/student"];
+
+    const isProtectedRoute = protectedRoutes.some((route) =>
+        location.pathname.startsWith(route)
+    );
+    const localPath = location.pathname.replace(/^\//, "").split("/")[0];
+    if (isAuthenticated && isProtectedRoute) {
+        const role = user?.role?.name.toLocaleLowerCase();
+        if (role !== localPath) {
+            return (
+                <Outlet />
+            );
+        }
+    }
+
+    return (
+        <>
+            <Layout
+                style={{ minHeight: '100vh' }}
+                className="layout-admin"
+            >
+                <Sider
+                    theme='light'
+                    collapsible
+                    collapsed={collapsed}
+                    onCollapse={(value) => setCollapsed(value)}>
+                    <div style={{ height: 32, margin: 16, textAlign: 'center' }}>
+                        Admin
+                    </div>
+                    <Menu
+                        // defaultSelectedKeys={[activeMenu]}
+                        selectedKeys={[activeMenu]}
+                        mode="inline"
+                        items={items}
+                        onClick={(e) => setActiveMenu(e.key)}
+                    />
+                </Sider>
+                <Layout>
+                    <div className='admin-header' style={{
+                        height: "50px",
+                        borderBottom: "1px solid #ebebeb",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "0 15px",
+
+                    }}>
+                        <span>
+                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: 'trigger',
+                                onClick: () => setCollapsed(!collapsed),
+                            })}
+                        </span>
+                        <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
+                            <Space style={{ cursor: "pointer" }}>
+                                <Avatar src={urlAvatar} />
+                                {user?.email}
+                            </Space>
+                        </Dropdown>
+                    </div>
+                    <Content style={{ padding: '15px' }}>
+                        <Outlet />
+                    </Content>
+                    {/* <Footer style={{ padding: 0, textAlign: "center" }}>
+                        React Test Fresher &copy; Hỏi Dân IT - Made with <HeartTwoTone />
+                    </Footer> */}
+                </Layout>
+            </Layout>
+        </>
+    );
+};
+
+export default LayoutAdmin;
