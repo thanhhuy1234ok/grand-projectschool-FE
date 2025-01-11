@@ -1,29 +1,29 @@
 import axios from "services/axios.customize";
 
 export const LoginAPI = (username: string, password: string) => {
-  const urlBackend = "/v1/auth/login";
+  const urlBackend = "/api/v1/auth/login";
   return axios.post<IBackendRes<ILogin>>(urlBackend, { username, password });
 };
 
 export const getAccountAPI = () => {
-  const urlBackend = "/v1/auth/account";
+  const urlBackend = "/api/v1/auth/account";
   return axios.get<IBackendRes<IFetchAccount>>(urlBackend);
 };
 
 export const LogoutAPI = () => {
-  const urlBackend = "/v1/auth/logout";
+  const urlBackend = "/api/v1/auth/logout";
   return axios.post<IBackendRes<IFetchAccount>>(urlBackend);
 };
 
 export const callRetryActive = (email: any) => {
-  const urlBackend = "/v1/auth/retry-password";
+  const urlBackend = "/api/v1/auth/retry-password";
   return axios.post<IBackendRes<string>>(urlBackend, {
     email,
   });
 };
 
 export const callForgotPassword = (data: IChangePassword) => {
-  const urlBackend = "/v1/auth/forgot-password";
+  const urlBackend = "/api/v1/auth/forgot-password";
   return axios.post<IBackendRes<string>>(urlBackend, {
     ...data,
   });
@@ -34,22 +34,22 @@ export const callForgotPassword = (data: IChangePassword) => {
  *
  */
 export const getRolesAPI = (query: string) => {
-  const urlBackend = `/v1/roles?${query}`;
+  const urlBackend = `/api/v1/roles?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IRole>>>(urlBackend);
 };
 
 export const createRoleAPI = (data: any) => {
-  const urlBackend = "/v1/roles";
+  const urlBackend = "/api/v1/roles";
   return axios.post<IBackendRes<IRole>>(urlBackend, { ...data });
 };
 
 export const updateRolesAPI = (data: any) => {
-  const urlBackend = "/v1/roles";
+  const urlBackend = "/api/v1/roles";
   return axios.patch<IBackendRes<IRole>>(urlBackend, { ...data });
 };
 
 export const detailRolesAPI = (id: number | string) => {
-  const urlBackend = `/v1/roles/${id}`;
+  const urlBackend = `/api/v1/roles/${id}`;
   return axios.get<IBackendRes<IRole>>(urlBackend);
 };
 
@@ -60,32 +60,32 @@ export const detailRolesAPI = (id: number | string) => {
  */
 
 export const getUsersAPI = (query: string) => {
-  const urlBackend = `/v1/users?${query}`;
+  const urlBackend = `/api/v1/users?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IUserTable>>>(urlBackend);
 };
 
 export const createUserAPI = (data: any) => {
-  const urlBackend = "/v1/users";
+  const urlBackend = "/api/v1/users";
   return axios.post<IBackendRes<IUserTable>>(urlBackend, { ...data });
 };
 export const updateUserAPI = (id: number, data: any) => {
-  const urlBackend = `/v1/users/${id}`;
+  const urlBackend = `/api/v1/users/${id}`;
   return axios.patch<IBackendRes<IUserTable>>(urlBackend, { ...data });
 };
 
 export const detailUserAPI = (id: number) => {
-  const urlBackend = `/v1/users/${id}`;
+  const urlBackend = `/api/v1/users/${id}`;
   return axios.get<IBackendRes<IUserTable>>(urlBackend);
 };
 
 export const deleteUserAPI = (id: number) => {
-  const urlBackend = `/v1/users/${id}`;
+  const urlBackend = `/api/v1/users/${id}`;
   return axios.delete<IBackendRes<IUserTable>>(urlBackend);
 };
 
 export const callBulkCreateUser = (user: IExcelData[]) => {
   return axios.post<IBackendRes<IExcelData[]>>(
-    "/v1/users/bulk-create",
+    "/api/v1/users/bulk-create",
     user
   );
 };
@@ -94,17 +94,17 @@ export const callBulkCreateUser = (user: IExcelData[]) => {
  * Module Cohort API
  */
 export const getCohortsAPI = (query: string) => {
-  const urlBackend = `/v1/cohort?${query}`;
+  const urlBackend = `/api/v1/cohort?${query}`;
   return axios.get<IBackendRes<IModelPaginate<ICohort>>>(urlBackend);
 };
 
 export const createCohortAPI = (data: any) => {
-  const urlBackend = "/v1/cohort";
+  const urlBackend = "/api/v1/cohort";
   return axios.post<IBackendRes<ICohort>>(urlBackend, { ...data });
 };
 
 export const updateCohortAPI = (id: number, data: any) => {
-  const urlBackend = `/v1/cohort/${id}`;
+  const urlBackend = `/api/v1/cohort/${id}`;
   return axios.patch<IBackendRes<ICohort>>(urlBackend, { ...data });
 };
 
@@ -113,12 +113,12 @@ export const updateCohortAPI = (id: number, data: any) => {
  */
 
 export const getMajorAPI = (query: string) => {
-  const urlBackend = `/v1/major?${query}`;
+  const urlBackend = `/api/v1/major?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IMajor>>>(urlBackend);
 };
 
 export const createMajorAPI = (data: any) => {
-  const urlBackend = "/v1/major";
+  const urlBackend = "/api/v1/major";
   return axios.post<IBackendRes<IMajor>>(urlBackend, { ...data });
 };
 
@@ -127,11 +127,11 @@ export const createMajorAPI = (data: any) => {
  */
 
 export const getRoomAPI = (query: string) => {
-  const urlBackend = `/v1/room?${query}`;
+  const urlBackend = `/api/v1/room?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IRoom>>>(urlBackend);
 };
 export const createRoomAPI = (data: any) => {
-  const urlBackend = "/v1/room";
+  const urlBackend = "/api/v1/room";
   return axios.post<IBackendRes<IRoom>>(urlBackend, { ...data });
 };
 
@@ -140,11 +140,11 @@ export const createRoomAPI = (data: any) => {
  */
 
 export const getClassAPI = (query: string) => {
-  const urlBackend = `/v1/classes?${query}`;
+  const urlBackend = `/api/v1/classes?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IClass>>>(urlBackend);
 };
 export const createClassAPI = (data: any) => {
-  const urlBackend = "/v1/classes";
+  const urlBackend = "/api/v1/classes";
   return axios.post<IBackendRes<IClass>>(urlBackend, { ...data });
 };
 
@@ -152,11 +152,11 @@ export const createClassAPI = (data: any) => {
  * Module Semester API
  */
 export const getSemesterAPI = (query: string) => {
-  const urlBackend = `/v1/semester?${query}`;
+  const urlBackend = `/api/v1/semester?${query}`;
   return axios.get<IBackendRes<IModelPaginate<ISemester>>>(urlBackend);
 };
 export const createSemesterAPI = (data: any) => {
-  const urlBackend = "/v1/semester";
+  const urlBackend = "/api/v1/semester";
   return axios.post<IBackendRes<ISemester>>(urlBackend, { ...data });
 };
 
@@ -164,7 +164,7 @@ export const callUpdateSemester = (
   id: number | string,
   semester: ISemester
 ) => {
-  return axios.patch<IBackendRes<ISemester>>(`/v1/semester/${id}`, {
+  return axios.patch<IBackendRes<ISemester>>(`/api/v1/semester/${id}`, {
     ...semester,
   });
 };
@@ -173,12 +173,12 @@ export const callUpdateSemester = (
  * Module Subject API
  */
 export const getSubjectAPI = (query: string) => {
-  const urlBackend = `/v1/subject?${query}`;
+  const urlBackend = `/api/v1/subject?${query}`;
   return axios.get<IBackendRes<IModelPaginate<ISubject>>>(urlBackend);
 };
 
 export const createSubjectAPI = (data: any) => {
-  const urlBackend = "/v1/subject";
+  const urlBackend = "/api/v1/subject";
   return axios.post<IBackendRes<ISubject>>(urlBackend, { ...data });
 };
 
@@ -186,35 +186,35 @@ export const createSubjectAPI = (data: any) => {
  * Module Schedule API
  */
 export const getScheduleAPI = (query: string) => {
-  const urlBackend = `/v1/schedule?${query}`;
+  const urlBackend = `/api/v1/schedule?${query}`;
   return axios.get<IBackendRes<IModelPaginate<ISchedule>>>(urlBackend);
 };
 export const createScheduleAPI = (data: any) => {
-  const urlBackend = "/v1/schedule";
+  const urlBackend = "/api/v1/schedule";
   return axios.post<IBackendRes<ISchedule>>(urlBackend, { ...data });
 };
 
 export const getScheduleListTodayAPI = (query: string) => {
-  const urlBackend = `/v1/schedule/today?${query}`;
+  const urlBackend = `/api/v1/schedule/today?${query}`;
   return axios.get<IBackendRes<ISchedule[]>>(urlBackend);
 };
 
 export const getScheduleTimeTableTeacherAPI = () => {
-  const urlBackend = "/v1/schedule/time-table";
+  const urlBackend = "/api/v1/schedule/time-table";
   return axios.get<IBackendRes<ISchedule[]>>(urlBackend);
 };
 export const getScheduleTimeTableStudentAPI = () => {
-  const urlBackend = "/v1/schedule/time-table-student";
+  const urlBackend = "/api/v1/schedule/time-table-student";
   return axios.get<IBackendRes<ISchedule[]>>(urlBackend);
 };
 
 export const getClassListTeacher = () => {
-  const urlBackend = "/v1/schedule/class-list";
+  const urlBackend = "/api/v1/schedule/class-list";
   return axios.get<IBackendRes<ISchedule[]>>(urlBackend);
 };
 
 export const getClassStudentListAPI = (id: number) => {
-  const urlBackend = `/v1/schedule/schedule-class/${id}`;
+  const urlBackend = `/api/v1/schedule/schedule-class/${id}`;
   return axios.get<IBackendRes<ISchedule>>(urlBackend);
 };
 
@@ -222,7 +222,7 @@ export const getClassStudentListAPI = (id: number) => {
  * Day of week
  */
 export const getDayOfWeekAPI = () => {
-  const urlBackend = `/v1/day-of-week?`;
+  const urlBackend = `/api/v1/day-of-week?`;
   return axios.get<IBackendRes<IDayOfWeek[]>>(urlBackend);
 };
 
@@ -230,33 +230,33 @@ export const getDayOfWeekAPI = () => {
  * Module Attendance API
  */
 export const getAttendanceByDateAPI = (query: string) => {
-  const urlBackend = `/v1/attendance/by-date?${query}`;
+  const urlBackend = `/api/v1/attendance/by-date?${query}`;
   return axios.get<IBackendRes<IAttendance[]>>(urlBackend);
 };
 
 export const updateAttendanceAPI = (query: string, data: any) => {
-  const urlBackend = `/v1/attendance/update?${query}`;
+  const urlBackend = `/api/v1/attendance/update?${query}`;
   return axios.put<IBackendRes<IAttendance>>(urlBackend, { ...data });
 };
 export const createListAttendanceScheduleAPI = (scheduleId: number) => {
-  const urlBackend = `/v1/attendance/add-attendance`;
+  const urlBackend = `/api/v1/attendance/add-attendance`;
   return axios.post<IBackendRes<IAttendance>>(urlBackend, { scheduleId });
 };
 
 export const createQrCodeAPI = (scheduleId: number, date:string) => {
-  const urlBackend = `/v1/attendance/qrcode`;
+  const urlBackend = `/api/v1/attendance/qrcode`;
   return axios.post<IBackendRes<ICreateQRCode>>(urlBackend, { scheduleId, date });
 };
 /**
  * Module Score API
  */
 export const updateScoreStudentAPI = (id: number, data: any) => {
-  const urlBackend = `/v1/score/${id}`;
+  const urlBackend = `/api/v1/score/${id}`;
   return axios.patch<IBackendRes<IScore>>(urlBackend, { ...data });
 };
 
 export const showAllListScoreStudentAPI = () => {
-  const urlBackend = "/v1/semester/score-student";
+  const urlBackend = "/api/v1/semester/score-student";
   return axios.get<IBackendRes<IScoreSemester[]>>(urlBackend);
 };
 
@@ -264,7 +264,7 @@ export const showAllListScoreStudentAPI = () => {
  * Module Mail API
  */
 export const callUpdateMailUserAPI = (data: any) => {
-  const urlBackend = "/v1/update-info-user";
+  const urlBackend = "/api/v1/update-info-user";
   return axios.post<IBackendRes<IUpdateData>>(urlBackend, { ...data });
 };
 
@@ -273,11 +273,11 @@ export const callUpdateMailUserAPI = (data: any) => {
 */
 
 export const getUpdateUserInfo = (id: string) =>{
-  const urlBackend = `/v1/update-info-user/approve-user/${id}`;
+  const urlBackend = `/api/v1/update-info-user/approve-user/${id}`;
   return axios.get<IBackendRes<IUpdateData>>(urlBackend);
 }
 
 export const updateUserInfo = (id:string) =>{
-  const urlBackend = `/v1/update-info-user/approve-update/${id}`;
+  const urlBackend = `/api/v1/update-info-user/approve-update/${id}`;
   return axios.post<IBackendRes<IUpdateData>>(urlBackend);
 }

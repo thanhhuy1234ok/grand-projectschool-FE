@@ -65,13 +65,13 @@ const ModalUsers = (props: IProps) => {
     }, [ dataUpdate]);
 
     const submitUser = async (valuesForm: any) => {
-        const { name, email, password, address, gender, roles, major, classes, yearOfAdmission } = valuesForm
+        const { name, email, password, address, gender, role, major, classes, yearOfAdmission } = valuesForm
         const classID = classes ? classes.value : undefined
         const cohort = yearOfAdmission ? yearOfAdmission.value : undefined
         const majorId = major ? major.value : undefined
-
+        const roleId = role ? role.value: undefined
         if (dataUpdate?.id) {
-            const data = { name, email, address, gender, role: roles.value, major: majorId, class: classID, yearOfAdmission: cohort }
+            const data = { name, email, address, gender, role: roleId, major: majorId, class: classID, yearOfAdmission: cohort }
             const res = await updateUserAPI(+dataUpdate.id, data)
             if (res && res.data) {
                 message.success('update user thành công');
@@ -86,7 +86,7 @@ const ModalUsers = (props: IProps) => {
             }
 
         } else {
-            const data = { name, email, password, address, gender, role: roles.value, major: majorId, class: classID, yearOfAdmission: cohort }
+            const data = { name, email, password, address, gender, role: roleId, major: majorId, class: classID, yearOfAdmission: cohort }
             const res = await createUserAPI(data)
             if (res && res.data) {
                 message.success('Tạo mới user thành công');
