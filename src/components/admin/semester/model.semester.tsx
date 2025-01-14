@@ -1,9 +1,10 @@
 
-import { ModalForm, ProFormDateRangePicker, ProFormDigit, ProFormSelect, ProFormText } from "@ant-design/pro-components";
+import { ModalForm, ProForm, ProFormDateRangePicker, ProFormDigit, ProFormSelect, ProFormText } from "@ant-design/pro-components";
 import { Col, Form, message, notification, Row } from "antd";
 import { isMobile } from "react-device-detect";
-import { useEffect } from "react";
-import { callUpdateSemester, createSemesterAPI } from "@/services/api";
+import { useEffect, useState } from "react";
+import { callUpdateSemester, createSemesterAPI, getCohortsAPI } from "@/services/api";
+import { DebounceSelect } from "@/components/share/debouce.select";
 
 
 
@@ -18,6 +19,7 @@ interface IProps {
 
 const ModalSemester = (props: IProps) => {
     const { openModal, setOpenModal, refreshTable, dataUpdate, setDataUpdate } = props;
+        const [cohort, setCohort] = useState<IOptionSelect[]>([])
     const [form] = Form.useForm();
 
     useEffect(() => {   
@@ -26,14 +28,41 @@ const ModalSemester = (props: IProps) => {
             contractTime: [dataUpdate?.startDate, dataUpdate?.endDate],
             isMainSemester: form.getFieldsValue().isMainSemester ? form.getFieldsValue().isMainSemester : 'true',
         });
+        if (dataUpdate?.id) {
+            if (dataUpdate?.cohort) {
+                setCohort([
+                    {
+                        label: `${dataUpdate.cohort?.startYear} - ${dataUpdate.cohort?.endYear}`,
+                        value: dataUpdate.cohort.id,
+                        key: dataUpdate.cohort?.id,
+                    }
+                ])
+            }
+        }
     }, [dataUpdate]);
+
+        async function fetchCohortList(): Promise<IOptionSelect[]> {
+            const res = await getCohortsAPI(`current=1&pageSize=100`);
+            if (res && res.data) {
+                const list = res.data.result;
+                const temp = list.map(item => {
+                    return {
+                        label: `${item.startYear} - ${item.endYear}`,
+                        value: item.id as number
+                    }
+                })
+                return temp;
+            } else return [];
+        }
+    
 
     const submitSemester = async (valuesForm: any) => {
         const { name,
             contractTime,
             maxCredits,
-            status } = valuesForm;
+            status, yearOfAdmission } = valuesForm;
         let isMainSemester = valuesForm.isMainSemester === 'true'
+        const cohort = yearOfAdmission?.value || undefined;
         if (dataUpdate?.id) {
             let id = dataUpdate.id
             //update
@@ -43,8 +72,8 @@ const ModalSemester = (props: IProps) => {
                 endDate: contractTime[1],
                 isMainSemester,
                 maxCredits,
-                status
-
+                status,
+                cohort
             }
 
             const res = await callUpdateSemester(+id, semester);
@@ -66,7 +95,8 @@ const ModalSemester = (props: IProps) => {
                 endDate: contractTime[1],
                 isMainSemester,
                 maxCredits,
-                status
+                status,
+                cohort
             }
             const res = await createSemesterAPI(semester);
             if (res.data) {
@@ -86,6 +116,7 @@ const ModalSemester = (props: IProps) => {
         form.resetFields();
         setDataUpdate(null);
         setOpenModal(false);
+        setCohort([])
     };
 
     return (
@@ -166,6 +197,28 @@ const ModalSemester = (props: IProps) => {
                             max={21} // Giá trị tối đa, có thể thay đổi theo yêu cầu
                         />
                     </Col>
+                    <Col lg={6} md={6} sm={24} xs={24}>
+                                            <ProForm.Item
+                                                name="yearOfAdmission"
+                                                label="Năm nhập học"
+                                            >
+                                                <DebounceSelect
+                                                    allowClear
+                                                    showSearch
+                                                    defaultValue={cohort}
+                                                    value={cohort}
+                                                    placeholder="Chọn năm nhập học"
+                                                    fetchOptions={fetchCohortList}
+                                                    onChange={(newValue: any) => {
+                                                        if (newValue?.length === 0 || newValue?.length === 1) {
+                                                            setCohort(newValue as IOptionSelect[]);
+                                                        }
+                                                    }}
+                                                    style={{ width: '100%' }}
+                                                />
+                                            </ProForm.Item>
+                    
+                                        </Col>
                 </Row>
             </ModalForm>
         </>
