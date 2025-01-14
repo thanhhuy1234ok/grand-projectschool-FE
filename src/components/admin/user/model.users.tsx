@@ -66,10 +66,10 @@ const ModalUsers = (props: IProps) => {
 
     const submitUser = async (valuesForm: any) => {
         const { name, email, password, address, gender, role, major, classes, yearOfAdmission } = valuesForm
-        const classID = classes ? classes.value : undefined
-        const cohort = yearOfAdmission ? yearOfAdmission.value : undefined
-        const majorId = major ? major.value : undefined
-        const roleId = role ? role.value: undefined
+        const classID = classes?.value || undefined;
+        const cohort = yearOfAdmission?.value || undefined;
+        const majorId = major?.value || undefined;
+        const roleId = role?.value || undefined;
         if (dataUpdate?.id) {
             const data = { name, email, address, gender, role: roleId, major: majorId, class: classID, yearOfAdmission: cohort }
             const res = await updateUserAPI(+dataUpdate.id, data)
