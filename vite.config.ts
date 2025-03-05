@@ -11,13 +11,13 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
     port: 3000,
-    proxy: {
-      "/api": {
-        target: process.env.VITE_BACKEND_URL || "http://localhost:8080",
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: process.env.VITE_BACKEND_URL || "https://schoo-academy.io.vn",
+    //     changeOrigin: true,
+    //     // rewrite: (path) => path.replace(/^\/api/, ""),
+    //   },
+    // },
   },
   css: {
     preprocessorOptions: {

@@ -8,7 +8,7 @@ const TimeTable = () => {
     const timeSlots = [
         { label: 'Morning', start: '00:00:00', end: '12:00:00' },
         { label: 'Afternoon', start: '12:00:00', end: '18:00:00' },
-        { label: 'Evening', start: '18:00:00', end: '22:00:00' },
+        { label: 'Evening', start: '18:00:00', end: '23:59:00' },
     ];
 
     useEffect(() => {

@@ -126,6 +126,7 @@ const TableAllListScore = () => {
 
     const fetchDataStudent = async () => {
         const res = await showAllListScoreStudentAPI();
+        console.log(res.data);
         if (res.data) {
             setDataScoreUser(res.data ?? [])
         }
