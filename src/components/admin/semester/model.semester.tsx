@@ -33,8 +33,8 @@ const ModalSemester = (props: IProps) => {
                 setCohort([
                     {
                         label: `${dataUpdate.cohort?.startYear} - ${dataUpdate.cohort?.endYear}`,
-                        value: dataUpdate.cohort.id,
-                        key: dataUpdate.cohort?.id,
+                        value: dataUpdate.cohort.id as number,
+                        key: dataUpdate.cohort?.id as string,
                     }
                 ])
             }

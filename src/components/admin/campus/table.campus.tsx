@@ -1,28 +1,31 @@
 import ButtonComponents from "@/components/share/button";
 import DataTable from "@/components/share/data.table";
-import { getRoomAPI } from "@/services/api";
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { getCampusAPI, getClassAPI } from "@/services/api";
+import { CloudUploadOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns } from "@ant-design/pro-components";
-import { Popconfirm, Space, } from "antd";
-
 import queryString from "query-string";
 import { useRef, useState } from "react";
-import ModalRoom from "./model.room";
+import ViewDetailCampus from "./view.campus";
+import ModalCampus from "./model.campus";
+import { Space } from "antd";
+import { useNavigate } from "react-router-dom";
 
 
 
-const TableRoom = () => {
+const TableCampus = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openModalImport, setOpenModalImport] = useState(false);
-    const [dataUpdate, setDataUpdate] = useState<IRoom | null>(null);
+    const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
+    const [dataUpdate, setDataUpdate] = useState<ICampus | null>(null);
     const [isDeleteCohort, setIsDeleteCohort] = useState<boolean>(false);
+        const navigate = useNavigate();
     const [meta, setMeta] = useState({
         current: 1,
         pageSize: 5,
         pages: 0,
         total: 0
     });
-    const [currentDataTable, setCurrentDataTable] = useState<IRoom[]>([]);
+    const [currentDataTable, setCurrentDataTable] = useState<ICampus[]>([]);
 
     const tableRef = useRef<ActionType>();
 
@@ -41,13 +44,13 @@ const TableRoom = () => {
         // setIsDeleteCohort(false)
     }
 
-    const columns: ProColumns<IRoom>[] = [
+    const columns: ProColumns<ICampus>[] = [
         {
             title: 'Id',
             dataIndex: 'id',
             key: 'id',
             width: 250,
-            render: (text, record, index, action) => {
+            render: (_text, record, _index, _action) => {
                 return (
                     <span>
                         {record.id}
@@ -57,74 +60,49 @@ const TableRoom = () => {
             hideInSearch: true,
         },
         {
-            title: 'Phòng học',
+            title: 'Tên cơ sở',
             dataIndex: 'name',
+            render: (_text, record, _index, _action) => {
+                return (
+                    <a href="#" onClick={() => {
+                        setOpenViewDetail(true);
+                        setDataUpdate(record);
+                    }}>
+                        {record.name}
+                    </a>
+                )
+            },
         },
         {
-            title: 'Số lượng chỗ ngồi',
-            dataIndex: 'capacity',
+            title: 'Vị trí',
+            dataIndex: 'location',
             hideInSearch: true
         },
         {
-            title: 'Trạng thái',
-            dataIndex: 'status',
-            hideInSearch: true
-        },
-        {
-
             title: 'Actions',
             hideInSearch: true,
             width: 50,
             render: (_value, entity, _index, _action) => (
                 <Space>
-                    {/* <Access
-                        permission={ALL_PERMISSIONS.ROLES.UPDATE}
-                        hideChildren
-                    >
-                        
-                    </Access> */}
-                    <EditOutlined
-                        style={{
-                            fontSize: 20,
-                            color: '#ffa500',
+                    <ButtonComponents
+                        icon={<PlusOutlined />}
+                        onClick={() => {
+                            handleViewDetail(+entity.id);
                         }}
-                        type=""
-                        onClick={async () => {
-                            setDataUpdate(entity)
-                            setOpenModal(true)
-                        }}
+                        title="Xem chi tiết cơ sở"
+                        isVisible={true}
                     />
-                    {/* <Access
-                        permission={ALL_PERMISSIONS.ROLES.DELETE}
-                        hideChildren
-                    >
-                        
-                    </Access> */}
-                    <Popconfirm
-                        placement="leftTop"
-                        title={"Xác nhận xóa role"}
-                        description={"Bạn có chắc chắn muốn xóa role này ?"}
-                        // onConfirm={() => handleDeleteRole(+entity.id)}
-                        okText="Xác nhận"
-                        cancelText="Hủy"
-                        okButtonProps={{ loading: isDeleteCohort }}
-                    >
-                        <span style={{ cursor: "pointer", margin: "0 10px" }}>
-                            <DeleteOutlined
-                                style={{
-                                    fontSize: 20,
-                                    color: '#ff4d4f',
-                                }}
-                            />
-                        </span>
-                    </Popconfirm>
                 </Space>
             ),
 
         },
     ];
 
-    const buildQuery = (params: any, sort: any, filter: any) => {
+    const handleViewDetail = (id: number) => {
+        navigate(`${id}`);
+    };
+
+    const buildQuery = (params: any, sort: any) => {
         const clone = { ...params };
         if (clone.name) clone.name = `${clone.name}`;
 
@@ -190,15 +168,15 @@ const TableRoom = () => {
     }
     return (
         <>
-            <DataTable<IRoom>
+            <DataTable<ICampus>
                 actionRef={tableRef}
-                headerTitle="Danh sách Phòng học"
+                headerTitle="Danh sách Campus"
                 rowKey="id"
                 columns={columns}
                 dataSource={currentDataTable}
-                request={async (params, sort, filter): Promise<any> => {
-                    const query = buildQuery(params, sort, filter);
-                    const res = await getRoomAPI(query);
+                request={async (params, sort): Promise<any> => {
+                    const query = buildQuery(params, sort);
+                    const res = await getCampusAPI(query);
                     if (res.data) {
                         setMeta(res.data.meta);
                         setCurrentDataTable(res.data?.result ?? [])
@@ -228,15 +206,21 @@ const TableRoom = () => {
                 }}
             />
 
-            <ModalRoom
+            <ModalCampus
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 refreshTable={reloadTable}
                 setDataUpdate={setDataUpdate}
                 dataUpdate={dataUpdate}
             />
+            <ViewDetailCampus
+                dataInit={dataUpdate}
+                onClose={setOpenViewDetail}
+                open={openViewDetail}
+                setDataInit={setDataUpdate}
+            />
         </>
     )
 }
 
-export default TableRoom
+export default TableCampus

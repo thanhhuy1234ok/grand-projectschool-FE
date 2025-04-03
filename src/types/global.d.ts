@@ -29,9 +29,9 @@ declare global {
     user: IUser;
   }
   export interface IOptionSelect {
-    label?: string | number;
-    value?: number | string;
-    key?: number | string;
+    label: string | number;
+    value: number | string;
+    key?: string;
   }
 
   interface IUser {
@@ -95,6 +95,7 @@ declare global {
     id?: number | string;
     name?: string;
     capacity?: number;
+    status?:string;
   }
 
   interface IClass {
@@ -192,5 +193,57 @@ declare global {
 
   interface ICreateQRCode {
     qrCode: string;
+  }
+
+  interface ICampus {
+    id: number | string;
+    name: string;
+    location: string;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
+  }
+
+  interface ITotalCampus {
+    totalCampuses: number;
+    totalBuildings: number;
+    totalRooms: number;
+  }
+
+  interface ISummaryCampus {
+    campusId: number;
+    campusName: string;
+    totalBuildings: number;
+    totalRooms: number;
+    totalFloors: number;
+  }
+
+  interface IDetailCampus {
+    name: string;
+    buildings: IBuilding[];
+  }
+
+  interface IBuilding {
+    name: string;
+    floors: IFloor[];
+    roomsWithoutFloor:string[];
+  }
+  interface IFloor {
+    floor: number;
+    rooms: string[];
+  }
+  interface IBuildingData {
+    id?: number | string;
+    name?: string;
+    totalFloors: number;
+    hasFloors: boolean;
+    campusId: number | string;
+  }
+  interface IFloorData {
+    id?: number | string;
+    name ?: string;
+    floor: number;
+    hasRooms: boolean;
+    buildingId: number | string;
   }
 }

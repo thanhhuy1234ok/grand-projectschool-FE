@@ -12,111 +12,72 @@ import {
     HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Dropdown, Space, Avatar } from 'antd';
-import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from '../context/app.context';
 import type { MenuProps } from 'antd';
-import avatar from '@/assets/avatar/avatar.jpg'
 import { LogoutAPI } from '@/services/api';
+import avatar from '@/assets/avatar/avatar.jpg'
 type MenuItem = Required<MenuProps>['items'][number];
 
 const { Content, Footer, Sider } = Layout;
 
 
-const LayoutAdmin = () => {
+const LayoutTeacherV1 = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [activeMenu, setActiveMenu] = useState('');
+    const navigate = useNavigate();
     const {
         user, setUser, setIsAuthenticated, isAuthenticated,
     } = useCurrentApp();
-    const navigate = useNavigate();
 
     const location = useLocation();
 
     const items: MenuItem[] = [
         {
-            label: <Link to='/admin'>Dashboard</Link>,
-            key: '/admin',
+            label: <Link to='/teacher'>Dashboard</Link>,
+            key: '/teacher',
             icon: <AppstoreOutlined />,
 
         },
         {
-            label: <Link to={'/admin/roles'}>Role</Link>,
-            key: '/admin/roles',
+            label: <Link to={'/teacher/classes-list-today'}>Lịch dạy hôm nay</Link>,
+            key: '/teacher/classes-list-today',
             icon: <ExceptionOutlined />,
         },
         {
-            label: <Link to={'/admin/major'}>Major</Link>,
-            key: '/admin/major',
+            label: <Link to={'/teacher/time-table'}>Thời khóa biểu</Link>,
+            key: '/teacher/time-table',
+            icon: <ExceptionOutlined />,
+        },
+        {
+            label: <Link to={'/teacher/class-list'}>Danh sách lớp</Link>,
+            key: '/admin/class-list',
             icon: <ExceptionOutlined size={17} />,
-        },
-        {
-            label: <Link to={'/admin/cohort'}>Year of Admission</Link>,
-            key: '/admin/cohort',
-            icon: <CalendarOutlined />,
-        },
-        {
-            label: <Link to={'/admin/classes'}>Classes</Link>,
-            key: '/admin/classes',
-            icon: <HomeOutlined />,
-        },
-        {
-            label: <Link to={'/admin/room'}>Room</Link>,
-            key: '/admin/room',
-            icon: <HomeOutlined />,
-        },
-        {
-            label: <Link to={'/admin/users'}>Users</Link>,
-            key: '/admin/users',
-            icon: <UserOutlined />,
-        },
-        {
-            label: <Link to={'/admin/subject'}>Subject</Link>,
-            key: '/admin/subject',
-            icon: <UserOutlined />,
-        },
-        {
-            label: <Link to={'/admin/schedule'}>Schedule</Link>,
-            key: '/admin/schedule',
-            icon: <UserOutlined />,
-        }, 
-        {
-            label: <Link to={'/admin/semester'}>Semester</Link>,
-            key: '/admin/semester',
-            icon: <UserOutlined />,
-        },
-        {
-            label: <Link to={'/admin/campus'}>Campus</Link>,
-            key: '/admin/campus',
-            icon: <UserOutlined />,
-        },
-        {
-            label: <Link to={'/admin/buildings'}>Buildings</Link>,
-            key: '/admin/buildings',
-            icon: <UserOutlined />,
         },
     ];
 
 
-    useEffect(() => {
-        const active: any = items.find(item => location.pathname === (item!.key as any)) ?? "/admin";
-        setActiveMenu(active.key)
-    }, [location])
+    // useEffect(() => {
+    //     const active: any = items.find(item => location.pathname === (item!.key as any)) ?? "/admin";
+    //     setActiveMenu(active.key)
+    // }, [location])
 
     const handleLogout = async () => {
         //todo
         const res = await LogoutAPI();
-        if (res.data) {
-            setUser(null);
+        if (res.data) { 
+            setUser(null); 
             setIsAuthenticated(false);
-            localStorage.removeItem("access_token");
+            localStorage.removeItem("access_token")
             navigate("/login");
         }
     }
 
     const handleProfile = () => {
-        navigate("/admin/profile");
+        navigate("/teacher/profile");
     }
+
 
 
     const itemsDropdown = [
@@ -141,12 +102,12 @@ const LayoutAdmin = () => {
     const urlAvatar = user?.avatar
         ? `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user.avatar}`
         : avatar;
-
-    if (isAuthenticated === false) {
-        return (
-            <Outlet />
-        )
-    }
+    // if (isAuthenticated === false) {
+    //     return (
+    //         <Outlet />
+    //     )
+    // }
+    
 
     const protectedRoutes = ["/admin", "/teacher", "/student"];
 
@@ -166,7 +127,9 @@ const LayoutAdmin = () => {
     return (
         <>
             <Layout
-                style={{ minHeight: '100vh' }}
+                style={{ 
+                    minHeight: '100vh' ,
+                }}
                 className="layout-admin"
             >
                 <Sider
@@ -175,7 +138,7 @@ const LayoutAdmin = () => {
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}>
                     <div style={{ height: 32, margin: 16, textAlign: 'center' }}>
-                        Admin
+                        Teacher
                     </div>
                     <Menu
                         // defaultSelectedKeys={[activeMenu]}
@@ -193,7 +156,6 @@ const LayoutAdmin = () => {
                         alignItems: "center",
                         justifyContent: "space-between",
                         padding: "0 15px",
-
                     }}>
                         <span>
                             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -204,7 +166,7 @@ const LayoutAdmin = () => {
                         <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
                             <Space style={{ cursor: "pointer" }}>
                                 <Avatar src={urlAvatar} />
-                                {user?.email}
+                                {user?.email} 
                             </Space>
                         </Dropdown>
                     </div>
@@ -220,4 +182,4 @@ const LayoutAdmin = () => {
     );
 };
 
-export default LayoutAdmin;
+export default LayoutTeacherV1;

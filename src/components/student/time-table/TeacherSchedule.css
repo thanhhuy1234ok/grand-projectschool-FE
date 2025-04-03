@@ -1,0 +1,82 @@
+.schedule-wrapper {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f8;
+  padding: 30px;
+  font-size: 13px;
+}
+
+.schedule-wrapper h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+  color: #2c3e50;
+}
+
+.schedule-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.schedule-wrapper th, .schedule-wrapper td {
+  border: 1px solid #dcdfe3;
+  padding: 10px;
+  vertical-align: top;
+  text-align: center;
+}
+
+.schedule-wrapper th {
+  background-color: #d6eaf8;
+  color: #154360;
+  font-size: 14px;
+}
+
+.schedule-wrapper .time {
+  background-color: #fcf3cf;
+  font-weight: bold;
+  font-size: 14px;
+  width: 100px;
+}
+
+.class-box {
+  background: #e8ebf7;
+  border-left: 4px solid #3498db;
+  padding: 8px 10px;
+  margin: 4px 0;
+  border-radius: 5px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.class-box.practice { border-left-color: #2ecc71; }
+.class-box.online { border-left-color: #5dade2; }
+.class-box.exam { border-left-color: #f1c40f; }
+.class-box.cancel { border-left-color: #e74c3c; }
+
+.legend {
+  margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.legend span {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #fff;
+  min-width: 120px;
+  text-align: center;
+}
+
+.legend .theory { background: #95a5a6; }
+.legend .practice { background: #2ecc71; }
+.legend .online { background: #5dade2; }
+.legend .exam { background: #f1c40f; color: #000; }
+.legend .cancel { background: #e74c3c; }

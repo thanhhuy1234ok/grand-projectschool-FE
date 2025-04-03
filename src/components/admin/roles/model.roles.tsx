@@ -51,7 +51,6 @@ const ModalRoles = (props: IProps) => {
         form.resetFields();
         setDataUpdate(null);
         setOpenModal(false);
-
     }
     return (
         <>

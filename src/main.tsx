@@ -30,6 +30,12 @@ import ProfilePage from './pages/profile/profile.page.tsx'
 import HomePage from './pages/home/home.page.tsx'
 import UpdateRequestDetails from './components/admin/user/test.tsx'
 import TestPage from './pages/admin/test.tsx'
+import CampusPage from './pages/admin/manager.campus.tsx'
+import LayoutTeacherV1 from './components/layout/layout.teacher.v1.tsx'
+import DashBoardTeacherPage from './pages/teacher/dashboarsh.teacher.tsx'
+import TeacherProfile from './pages/teacher/profile/profile.teacher.v1.tsx'
+import BuildingPage from './pages/admin/manager.building.tsx'
+import DetailCampusPage from './pages/admin/detail.campus.tsx'
 
 
 const router = createBrowserRouter([
@@ -132,6 +138,35 @@ const router = createBrowserRouter([
         )
       },
       {
+        path: 'campus',
+        children: [
+          {
+            index: true,
+            element: (
+              <ProtectedRoute>
+                <CampusPage />
+              </ProtectedRoute >
+            )
+          },
+          {
+            path: ':id',
+            element: (
+              <ProtectedRoute>
+                <DetailCampusPage />
+              </ProtectedRoute>
+            )
+          }
+        ]
+      },
+      {
+        path: 'buildings',
+        element: (
+          <ProtectedRoute>
+            <BuildingPage />
+          </ProtectedRoute >
+        )
+      },
+      {
         path: 'test/:id',
         element: (
           <ProtectedRoute>
@@ -149,7 +184,7 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <ProtectedRoute>
-            <DashBoardPage />
+            <DashBoardTeacherPage />
           </ProtectedRoute>
         )
       },
@@ -208,7 +243,8 @@ const router = createBrowserRouter([
         path: 'profile',
         element: (
           <ProtectedRoute>
-            <ProfilePage />
+            {/* <ProfilePage /> */}
+            <TeacherProfile/>
           </ProtectedRoute >
         )
       }
