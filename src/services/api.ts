@@ -334,3 +334,35 @@ export const getFloorAPI = (query: string) => {
   const urlBackend = `/api/v1/floor?buildingId=${query}`;
   return axios.get<IBackendRes<IModelPaginate<IFloorData>>>(urlBackend);
 }
+
+/**
+ * Module Facility API
+ */
+export const getFacilityAPI = (query: string) => {
+  const urlBackend = `/api/v1/facility?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<IFacility>>>(urlBackend);
+}
+
+export const getCategoryFacilityAPI = (query: string) => {
+  const urlBackend = `/api/v1/facility-category?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<ICategory>>>(urlBackend);
+};
+
+export const getStatusFacilityAPI = (query: string) => {
+  const urlBackend = `/api/v1/facility-status?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<IStatus>>>(urlBackend);
+}
+
+export const createFacilityAPI = (data: any) => {
+  const urlBackend = "/api/v1/facility";
+  return axios.post<IBackendRes<IFacility>>(urlBackend, { ...data });
+}
+
+/**
+ * Module Supplier API
+ */
+
+export const getSupplierAPI = (query: string) => {
+  const urlBackend = `/api/v1/supplier?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<ISupplier>>>(urlBackend);
+}

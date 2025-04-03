@@ -37,9 +37,9 @@ const ModalSchedule = (props: IProps) => {
             if (dataUpdate.room) {
                 setRoom([
                     {
-                        label: dataUpdate.room?.name,
-                        value: dataUpdate.room?.id,
-                        key: dataUpdate.room?.id,
+                        label: dataUpdate.room?.name as string,
+                        value: dataUpdate.room?.id as number,
+                        key: dataUpdate.room?.id as string, 
                     }
                 ])
             }
@@ -56,18 +56,18 @@ const ModalSchedule = (props: IProps) => {
             if (dataUpdate?.teacher) {
                 setTeacher([
                     {
-                        label: dataUpdate?.teacher?.name,
-                        value: dataUpdate.teacher?.id,
-                        key: dataUpdate.teacher?.id,
+                        label: dataUpdate.room?.name as string,
+                        value: dataUpdate.room?.id as number,
+                        key: dataUpdate.room?.id as string, 
                     }
                 ])
             }
             if (dataUpdate?.subject) {
                 setSubject([
                     {
-                        label: dataUpdate?.subject?.name,
-                        value: dataUpdate.subject?.id,
-                        key: dataUpdate.subject?.id,
+                        label: dataUpdate.room?.name as string,
+                        value: dataUpdate.room?.id as number,
+                        key: dataUpdate.room?.id as string, 
                     }
                 ])
             }

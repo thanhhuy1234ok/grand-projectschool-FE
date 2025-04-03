@@ -36,6 +36,7 @@ import DashBoardTeacherPage from './pages/teacher/dashboarsh.teacher.tsx'
 import TeacherProfile from './pages/teacher/profile/profile.teacher.v1.tsx'
 import BuildingPage from './pages/admin/manager.building.tsx'
 import DetailCampusPage from './pages/admin/detail.campus.tsx'
+import FacilityManagerPage from './pages/admin/manager.facility.tsx'
 
 
 const router = createBrowserRouter([
@@ -163,6 +164,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <BuildingPage />
+          </ProtectedRoute >
+        )
+      },
+      {
+        path: 'facility',
+        element: (
+          <ProtectedRoute>
+            <FacilityManagerPage />
           </ProtectedRoute >
         )
       },

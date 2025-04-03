@@ -95,6 +95,11 @@ const LayoutAdmin = () => {
             key: '/admin/buildings',
             icon: <UserOutlined />,
         },
+        {
+            label: <Link to={'/admin/facility'}>Facility</Link>,
+            key: '/admin/facility',
+            icon: <UserOutlined />,
+        },
     ];
 
 

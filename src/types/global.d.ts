@@ -246,4 +246,33 @@ declare global {
     hasRooms: boolean;
     buildingId: number | string;
   }
+
+interface ICategory {
+  id: number;
+  name: string;
+}
+
+interface IStatus {
+  id: number;
+  name: string;
+}
+
+interface ISupplier {
+  id: number;
+  name: string;
+  contactInfo: string;
+}
+
+interface IFacility {
+  id: number;
+  name: string;
+  purchase_date: string; // ISO format date
+  warranty_expiry: string; // ISO format date
+  quantity: number;
+  price: string; // dùng string để giữ nguyên định dạng số có dấu thập phân
+  description: string;
+  category: Category;
+  status: Status;
+  supplier: Supplier;
+}
 }
