@@ -366,3 +366,28 @@ export const getSupplierAPI = (query: string) => {
   const urlBackend = `/api/v1/supplier?${query}`;
   return axios.get<IBackendRes<IModelPaginate<ISupplier>>>(urlBackend);
 }
+
+/**
+ * Module Facility Assignment API
+ */
+export const getFacilityAssignmentAPI = (query: string) => {
+  const urlBackend = `/api/v1/facility-assignment?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<IAssignment>>>(urlBackend);
+}
+export const createFacilityAssignmentAPI = (data: any) => {
+  const urlBackend = "/api/v1/facility-assignment";
+  return axios.post<IBackendRes<IAssignment>>(urlBackend, { ...data });
+}
+
+
+/**
+ * Module Maintenance History API
+ */
+export const getMaintenanceHistoryAPI = (query: string) => {
+  const urlBackend = `/api/v1/maintenance-history?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<IMaintenanceRequest>>>(urlBackend);
+}
+export const createMaintenanceHistoryAPI = (data: any) => {
+  const urlBackend = "/api/v1/maintenance-history";
+  return axios.post<IBackendRes<IMaintenanceRequest>>(urlBackend, { ...data });
+}

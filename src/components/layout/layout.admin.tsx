@@ -91,13 +91,18 @@ const LayoutAdmin = () => {
             icon: <UserOutlined />,
         },
         {
-            label: <Link to={'/admin/buildings'}>Buildings</Link>,
-            key: '/admin/buildings',
+            label: <Link to={'/admin/facility'}>Facility</Link>,
+            key: '/admin/facility',
             icon: <UserOutlined />,
         },
         {
-            label: <Link to={'/admin/facility'}>Facility</Link>,
-            key: '/admin/facility',
+            label: <Link to={'/admin/facility-assignment'}>Facility Assignment</Link>,
+            key: '/admin/facility-assignment',
+            icon: <UserOutlined />,
+        },
+        {
+            label: <Link to={'/admin/maintenance-history'}>Maintenance History</Link>,
+            key: '/admin/maintenance-history',
             icon: <UserOutlined />,
         },
     ];

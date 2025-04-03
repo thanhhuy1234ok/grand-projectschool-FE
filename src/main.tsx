@@ -28,15 +28,14 @@ import ClassListStudent from './pages/teacher/classlist/list.student.tsx'
 import ShowListScorePage from './pages/student/academic-outcomes.tsx'
 import ProfilePage from './pages/profile/profile.page.tsx'
 import HomePage from './pages/home/home.page.tsx'
-import UpdateRequestDetails from './components/admin/user/test.tsx'
 import TestPage from './pages/admin/test.tsx'
 import CampusPage from './pages/admin/manager.campus.tsx'
-import LayoutTeacherV1 from './components/layout/layout.teacher.v1.tsx'
 import DashBoardTeacherPage from './pages/teacher/dashboarsh.teacher.tsx'
 import TeacherProfile from './pages/teacher/profile/profile.teacher.v1.tsx'
-import BuildingPage from './pages/admin/manager.building.tsx'
 import DetailCampusPage from './pages/admin/detail.campus.tsx'
 import FacilityManagerPage from './pages/admin/manager.facility.tsx'
+import FacilityAssignmentPage from './pages/admin/manager.facility.assigment.tsx'
+import MaintenanceHistoryPage from './pages/admin/manager.maintenancehistory.tsx'
 
 
 const router = createBrowserRouter([
@@ -160,18 +159,26 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: 'buildings',
-        element: (
-          <ProtectedRoute>
-            <BuildingPage />
-          </ProtectedRoute >
-        )
-      },
-      {
         path: 'facility',
         element: (
           <ProtectedRoute>
             <FacilityManagerPage />
+          </ProtectedRoute >
+        )
+      },
+      {
+        path: 'facility-assignment',
+        element: (
+          <ProtectedRoute>
+            <FacilityAssignmentPage />
+          </ProtectedRoute >
+        )
+      },
+      {
+        path: 'maintenance-history',
+        element: (
+          <ProtectedRoute>
+            <MaintenanceHistoryPage />
           </ProtectedRoute >
         )
       },

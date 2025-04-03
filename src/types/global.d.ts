@@ -95,7 +95,8 @@ declare global {
     id?: number | string;
     name?: string;
     capacity?: number;
-    status?:string;
+    status?: string;
+    building?: IBuildingData;
   }
 
   interface IClass {
@@ -160,10 +161,10 @@ declare global {
     scores: IScore[];
   }
   interface IUpdateData {
-    id:string
+    id: string;
     data: Record<string, any>;
     status?: "pending" | "approved" | "rejected";
-    user:IUserTable
+    user: IUserTable;
   }
 
   interface IExcelData {
@@ -226,7 +227,7 @@ declare global {
   interface IBuilding {
     name: string;
     floors: IFloor[];
-    roomsWithoutFloor:string[];
+    roomsWithoutFloor: string[];
   }
   interface IFloor {
     floor: number;
@@ -238,41 +239,66 @@ declare global {
     totalFloors: number;
     hasFloors: boolean;
     campusId: number | string;
+    campus: ICampus;
   }
   interface IFloorData {
     id?: number | string;
-    name ?: string;
+    name?: string;
     floor: number;
     hasRooms: boolean;
     buildingId: number | string;
   }
 
-interface ICategory {
-  id: number;
-  name: string;
-}
+  interface ICategory {
+    id: number;
+    name: string;
+  }
 
-interface IStatus {
-  id: number;
-  name: string;
-}
+  interface IStatus {
+    id: number;
+    name: string;
+  }
 
-interface ISupplier {
-  id: number;
-  name: string;
-  contactInfo: string;
-}
+  interface ISupplier {
+    id: number;
+    name: string;
+    contactInfo: string;
+  }
 
-interface IFacility {
-  id: number;
-  name: string;
-  purchase_date: string; // ISO format date
-  warranty_expiry: string; // ISO format date
-  quantity: number;
-  price: string; // dùng string để giữ nguyên định dạng số có dấu thập phân
-  description: string;
-  category: Category;
-  status: Status;
-  supplier: Supplier;
-}
+  interface IFacility {
+    id: number;
+    name: string;
+    purchase_date: string; // ISO format date
+    warranty_expiry: string; // ISO format date
+    quantity: number;
+    remainingQuantity:number;
+    price: string; // dùng string để giữ nguyên định dạng số có dấu thập phân
+    description: string;
+    category: Category;
+    status: IStatus;
+    supplier: Supplier;
+  }
+
+  export interface IAssignment {
+    id: number;
+    quantity: number;
+    assignedAt: string;
+    status: string;
+    room: IRoom;
+    assignedBy: IUserTable;
+    facility: IFacility;
+  }
+
+  export interface IMaintenanceRequest {
+    id: number;
+    facility: IFacility;
+    room: IRoom;
+    technician: IUserTable;
+    maintenance_type: string;
+    status: "pending" | "in_progress" | "completed";
+    notes?: string;
+    quantity: number;
+    maintenanceDate: string;
+  }
+
 }

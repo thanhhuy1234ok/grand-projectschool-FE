@@ -1,21 +1,22 @@
 import ButtonComponents from "@/components/share/button";
 import DataTable from "@/components/share/data.table";
-import { getFacilityAPI, getMajorAPI } from "@/services/api";
+import { getFacilityAPI, getFacilityAssignmentAPI, getMaintenanceHistoryAPI, getMajorAPI } from "@/services/api";
 import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns } from "@ant-design/pro-components";
 import { Popconfirm, Space } from "antd";
 
 import queryString from "query-string";
 import { useRef, useState } from "react";
-import ModalFacility from "./model.facility";
+import ModalMaintenance from "./model.facility";
 
 
 
 
-const TableFacility = () => {
+const TableMaintenanceHistory = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openModalImport, setOpenModalImport] = useState(false);
-    const [dataUpdate, setDataUpdate] = useState<IFacility | null>(null);
+    const [dataUpdate, setDataUpdate] = useState<IMaintenanceRequest | null>(null);
+    const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
     const [isDeleteCohort, setIsDeleteCohort] = useState<boolean>(false);
     const [meta, setMeta] = useState({
         current: 1,
@@ -23,7 +24,7 @@ const TableFacility = () => {
         pages: 0,
         total: 0
     });
-    const [currentDataTable, setCurrentDataTable] = useState<IFacility[]>([]);
+    const [currentDataTable, setCurrentDataTable] = useState<IMaintenanceRequest[]>([]);
 
     const tableRef = useRef<ActionType>();
 
@@ -42,7 +43,7 @@ const TableFacility = () => {
         // setIsDeleteCohort(false)
     }
 
-    const columns: ProColumns<IFacility>[] = [
+    const columns: ProColumns<IMaintenanceRequest>[] = [
         {
             title: 'Id',
             dataIndex: 'id',
@@ -50,40 +51,48 @@ const TableFacility = () => {
             width: 250,
             render: (_text, record,) => {
                 return (
-                    <span>
-                        {record.id}
-                    </span>
+                    <div>
+                        <a href="#" onClick={() => {
+                            setOpenViewDetail(true);
+                            setDataUpdate(record);
+                        }}>
+                            {record.id}
+                        </a>
+                    </div>
+
                 )
             },
             hideInSearch: true,
         },
         {
             title: 'Tên thiết bị',
-            dataIndex: 'name',
+            dataIndex: ['facility', 'name'],
         },
         {
-            title: 'Mô tả thiết bị',
-            dataIndex: 'description',
+            title: 'Vị trí thiết bị',
+            dataIndex: 'room',
+            render: (_text, record,) => {
+                return (
+                    <span>
+                        {record.room?.building?.campus.name} - {record.room?.building?.name} -{record.room?.name}
+                    </span>
+                )
+            },
             hideInSearch: true,
         },
         {
-            title: 'Tổng số lượng',
+            title: 'Số lượng thiết bị hư',
             dataIndex: 'quantity',
             hideInSearch: true,
         },
         {
-            title:'Trạng thái thiết bị',
-            dataIndex: ['status','name'],
+            title: 'Trạng thái thiết bị',
+            dataIndex: 'status',
             hideInSearch: true,
         },
         {
-            title: 'Loại thiết bị',
-            dataIndex: ['category', 'name'],
-            hideInSearch: true,
-        },
-        {
-            title: 'Tổng tồn kho',
-            dataIndex: 'remainingQuantity',
+            title: 'nội dung bảo trì',
+            dataIndex: 'notes',
             hideInSearch: true,
         },
         {
@@ -206,16 +215,17 @@ const TableFacility = () => {
     }
     return (
         <>
-            <DataTable<IFacility>
+            <DataTable<IMaintenanceRequest>
                 actionRef={tableRef}
-                headerTitle="Danh sách kho thiết bị"
+                headerTitle="Danh sách lịch sử bảo trì thiết bị"
                 rowKey="id"
                 columns={columns}
                 dataSource={currentDataTable}
                 request={async (params, sort, filter): Promise<any> => {
                     const query = buildQuery(params, sort, filter);
-                    const res = await getFacilityAPI(query);
+                    const res = await getMaintenanceHistoryAPI(query);
                     if (res.data) {
+                        console.log(res.data?.result);
                         setMeta(res.data.meta);
                         setCurrentDataTable(res.data?.result ?? [])
                     }
@@ -243,16 +253,23 @@ const TableFacility = () => {
                     );
                 }}
             />
-
-            <ModalFacility
+            
+            <ModalMaintenance
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 refreshTable={reloadTable}
                 setDataUpdate={setDataUpdate}
                 dataUpdate={dataUpdate}
             />
+
+            {/* <ViewDetailAssignment
+                dataInit={dataUpdate}
+                onClose={setOpenViewDetail}
+                open={openViewDetail}
+                setDataInit={setDataUpdate}
+            /> */}
         </>
     )
 }
 
-export default TableFacility
+export default TableMaintenanceHistory
