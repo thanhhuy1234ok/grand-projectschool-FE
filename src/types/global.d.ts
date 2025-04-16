@@ -97,6 +97,12 @@ declare global {
     capacity?: number;
     status?: string;
     building?: IBuildingData;
+    assignments?: IAssignment[];
+    equipments?: IEquipment[];
+  }
+  interface EquipmentDTO {
+    facilityID: number; // ID của thiết bị
+    quantity: number; // Số lượng thiết bị
   }
 
   interface IClass {

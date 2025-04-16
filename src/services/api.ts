@@ -140,6 +140,16 @@ export const createRoomAPI = (data: any) => {
 //   return axios.post<IBackendRes<IRoom>>(urlBackend, { ...data });
 // }
 
+export const createRoomBulkFacilityAPI = (data: any) => {
+  const urlBackend = "/api/v1/room/bulk-room-facility";
+  return axios.post<IBackendRes<IRoom>>(urlBackend, { ...data });
+};
+
+export const getDetailRoomAPI = (id: number) => {
+  const urlBackend = `/api/v1/room/${id}`;
+  return axios.get<IBackendRes<IRoom>>(urlBackend);
+};
+
 /**
  * Module Class API
  */

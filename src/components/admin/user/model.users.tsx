@@ -28,36 +28,36 @@ const ModalUsers = (props: IProps) => {
             if (dataUpdate.role) {
                 setRoles([
                     {
-                        label: dataUpdate.role?.name,
-                        value: dataUpdate.role?.id,
-                        key: dataUpdate.role?.id,
+                        label: dataUpdate.role?.name as string,
+                        value: dataUpdate.role?.id as number,
+                        key: dataUpdate.role?.id as string,
                     }
                 ])
             }
             if (dataUpdate.class) {
                 setClasses([
                     {
-                        label: dataUpdate.class.name,
-                        value: dataUpdate.class.id,
-                        key: dataUpdate.class.id,
+                        label: dataUpdate.class.name as string,
+                        value: dataUpdate.class.id as number,
+                        key: dataUpdate.class.id as string,
                     }
                 ])
             }
             if (dataUpdate?.major) {
                 setMajor([
                     {
-                        label: dataUpdate.major.name,
-                        value: dataUpdate.major.id,
-                        key: dataUpdate.major?.id,
+                        label: dataUpdate.major.name as string,
+                        value: dataUpdate.major.id as number,
+                        key: dataUpdate.major?.id as string,
                     }
                 ])
             }
             if (dataUpdate?.yearOfAdmission) {
                 setCohort([
                     {
-                        label: `${dataUpdate.yearOfAdmission?.startYear} - ${dataUpdate.yearOfAdmission?.endYear}`,
-                        value: dataUpdate.yearOfAdmission.id,
-                        key: dataUpdate.yearOfAdmission?.id,
+                        label: `${dataUpdate.yearOfAdmission?.startYear} - ${dataUpdate.yearOfAdmission?.endYear}` as string,
+                        value: dataUpdate.yearOfAdmission.id as number,
+                        key: dataUpdate.yearOfAdmission?.id as string,
                     }
                 ])
             }

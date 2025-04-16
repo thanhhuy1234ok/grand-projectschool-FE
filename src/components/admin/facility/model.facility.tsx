@@ -1,7 +1,7 @@
 
 import { DebounceSelect } from "@/components/share/debouce.select";
 import { createCampusAPI, createCohortAPI, createFacilityAPI, getCategoryFacilityAPI, getMajorAPI, getStatusFacilityAPI, getSupplierAPI, updateCohortAPI } from "@/services/api";
-import { ModalForm, ProForm, ProFormDatePicker, ProFormDigit, ProFormText } from "@ant-design/pro-components";
+import { ModalForm, ProForm, ProFormDatePicker, ProFormDigit, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Col, DatePicker, Form, message, notification, Row } from "antd";
 import { useState } from "react";
 
@@ -23,14 +23,17 @@ const ModalFacility = (props: IProps) => {
     const [supplier, setSupplier] = useState<IOptionSelect[]>([]);
 
     const submitFacility = async (valuesForm: any) => {
-        const { name, price, quantity, category, status, contractDate, supplier } = valuesForm;
+        const { name, price, quantity, category, status, contractDate, supplier, description } = valuesForm;
+        const facility = {
+            name, price, quantity, 
+            category_id: category.value, 
+            status_id: status.value, 
+            contractDate, supplier_id: supplier.value, 
+            description
+        };
         if (dataUpdate?.id) {
             let id = dataUpdate.id
             //update
-            const facility = {
-                name,
-            };
-
             // const res = await updateCohortAPI(+id, cohort);
             // if (res.data) {
             //     message.success("Cập nhật Facility thành công");
@@ -44,9 +47,7 @@ const ModalFacility = (props: IProps) => {
             // }
         } else {
             //create
-            const facility = {
-                name, price, quantity, category_id: category.value, status_id:status.value, contractDate , supplier_id: supplier.value
-            };
+
             const res = await createFacilityAPI(facility);
             if (res.data) {
                 message.success("Thêm mới Facility thành công");
@@ -245,6 +246,13 @@ const ModalFacility = (props: IProps) => {
                                 style={{ width: '100%' }}
                             />
                         </ProForm.Item>
+                    </Col>
+                    <Col lg={24} md={24} sm={24} xs={24}>
+                        <ProFormTextArea
+                            label="Mô tả thiết bị"
+                            name="description"
+                            placeholder="Nhập Mô tả thiết bị"
+                        />
                     </Col>
                 </Row>
             </ModalForm >

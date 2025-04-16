@@ -220,7 +220,7 @@ const TableFacilityAssignment = () => {
         <>
             <DataTable<IAssignment>
                 actionRef={tableRef}
-                headerTitle="Danh sách kho thiết bị"
+                headerTitle="Danh sách lịch sử phân bổ thiết bị"
                 rowKey="id"
                 columns={columns}
                 dataSource={currentDataTable}

@@ -8,12 +8,16 @@ import { Popconfirm, Space, } from "antd";
 import queryString from "query-string";
 import { useRef, useState } from "react";
 import ModalRoom from "./model.room";
+import ModalRoomFacility from "./mode.roomfacility";
+import ViewDetailRoom from "./view.room";
 
 
 
 const TableRoom = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openModalV1, setOpenModalV1] = useState<boolean>(false);
     const [openModalImport, setOpenModalImport] = useState(false);
+    const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
     const [dataUpdate, setDataUpdate] = useState<IRoom | null>(null);
     const [isDeleteCohort, setIsDeleteCohort] = useState<boolean>(false);
     const [meta, setMeta] = useState({
@@ -47,11 +51,17 @@ const TableRoom = () => {
             dataIndex: 'id',
             key: 'id',
             width: 250,
-            render: (text, record, index, action) => {
+            render: (_text, record,) => {
                 return (
-                    <span>
-                        {record.id}
-                    </span>
+                    <div>
+                        <a href="#" onClick={() => {
+                            setOpenViewDetail(true);
+                            setDataUpdate(record);
+                        }}>
+                            {record.id}
+                        </a>
+                    </div>
+
                 )
             },
             hideInSearch: true,
@@ -179,6 +189,13 @@ const TableRoom = () => {
                         title="Thêm mới"
                         isVisible={true}
                     />
+
+                    <ButtonComponents
+                        icon={<PlusOutlined />}
+                        onClick={() => setOpenModalV1(true)}
+                        title="Thêm mới v1"
+                        isVisible={true}
+                    />
                 </span>
             </div>
         )
@@ -234,6 +251,21 @@ const TableRoom = () => {
                 refreshTable={reloadTable}
                 setDataUpdate={setDataUpdate}
                 dataUpdate={dataUpdate}
+            />
+
+            <ModalRoomFacility
+                openModal={openModalV1}
+                setOpenModal={setOpenModalV1}
+                refreshTable={reloadTable}
+                setDataUpdate={setDataUpdate}
+                dataUpdate={dataUpdate}
+            />
+
+            <ViewDetailRoom
+                dataInit={dataUpdate}
+                onClose={setOpenViewDetail}
+                open={openViewDetail}
+                setDataInit={setDataUpdate}
             />
         </>
     )
